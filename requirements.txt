@@ -1,0 +1,9 @@
+Please ensure you have installed gitbash and python before you execute the commands below.
+
+pip install virtualenv
+python -m virtualenv webtest
+source ./webtest/Scripts/activate
+pip install flask
+pip install mysql-connector-python
+pip install flask-mysqldb
+python app.py
