@@ -1,3 +1,4 @@
 {
+    "python.pythonPath": "webtest\\Scripts\\python.exe",
     "liveServer.settings.port": 5501
 }

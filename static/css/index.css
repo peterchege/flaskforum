@@ -1,0 +1,128 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+:root {
+  /* main background of webpage */
+  --bg-color: white;
+  --fg-color: rgba(0, 0, 0, 0.9);
+
+  --hi-primary: white;
+  --hi-secondary: white;
+  --hi-gradient: linear-gradient(
+    135deg,
+    var(--hi-secondary),
+    var(--hi-primary)
+  );
+
+  --bg-input: #d1d3d4;
+  --fg-input: var(--hi-primary);
+
+  --shadow: rgba(0, 0, 0, 0.75);
+
+  --font-size: 0.96rem;
+  --font-size-small: 0.85rem;
+}
+
+body {
+  display: grid;
+  place-items: center;
+
+  min-height: 90vh;
+
+  background: var(--hi-gradient);
+}
+
+main {
+  --size: 40rem;
+
+  display: grid;
+  border-right: black;
+  grid-template-columns: 3fr 2fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: "artwork form";
+
+  width: var(--size);
+  height: calc(var(--size) / 1.5);
+
+  background: var(--bg-color);
+  color: var(--fg-color);
+
+  box-shadow: 0px 6px 10px 0px var(--shadow);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 2rem;
+  margin: 3px;
+
+  font-family: "Fira sans", sans-serif;
+}
+
+h1 {
+  font-weight: 300;
+  text-transform: uppercase;
+  color: black;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="submit"],
+a.button {
+  --padding: 0.5rem;
+
+  padding: var(--padding);
+  border-radius: calc(var(--font-size) + var(--padding));
+  border: 3px solid transparent;
+
+  color: black;
+  background-color: var(--bg-input);
+
+  font-size: var(--font-size);
+  font-family: "Fira sans", sans-serif;
+
+  transition: border-color 250ms ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus {
+  outline: none;
+
+  border-color: var(--hi-primary);
+}
+
+input[type="submit"] {
+  background-color: black;
+  color: yellow;
+}
+
+a.button {
+  background-color: black;
+  color: yellow;
+  text-align: center;
+}
+
+input.has-icon {
+  background-repeat: no-repeat;
+  background-size: calc(var(--font-size) + var(--paddding));
+  background-position: var(--padding) 50%;
+  padding-left: calc(3 * var(--font-size) + var(--padding));
+}
+
+input.icon-email {
+  background-image: url("../images/email-icon.svg");
+  fill: var(--fg-color);
+}
+
+input.icon-password {
+  background-image: url("../images/lock-icon.svg");
+}
+
+input.icon-name {
+  background-image: url("../images/user-icon.svg");
+}

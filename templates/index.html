@@ -5,28 +5,65 @@
     <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge" /> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='./css/index.css')}}"
+      media="screen"
+    />
   </head>
-  <link
-    rel="stylesheet"
-    type="text/css"
-    href="{{url_for('static',filename='./css/forum.css')}}"
-  />
 
   <!-- <br> -->
   <body>
-    <h1>Login</h1>
-    <form action="" method="POST" class="login">
-      <div class="box-1">
-        <input type="email" name="email" placeholder="email" />
-        <br />
-        <div class="fields">
-          <input type="password" name="password" placeholder="password" />
-          <br />
-          <input type="button" type="submit" value="Login" name="" />
-          <br />
-        </div>
-        <a href="register.html">Don't have an account?</a>
-      </div>
-    </form>
+    <main>
+      <form action="" autocomplete="off">
+        <h1>Register</h1>
+        <input
+          type="text"
+          name="name"
+          placeholder="Name"
+          class="has-icon icon-name"
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          class="has-icon icon-email"
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          class="has-icon icon-password"
+        />
+        <input class="button" type="submit" value="Register" name="Register" />
+      </form>
+
+      <form action="" method="POST" class="login">
+        <h1>Login</h1>
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          class="has-icon icon-email"
+        />
+
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          class="has-icon icon-password"
+        />
+
+        <label for="">
+          <input type="checkbox" />
+          Remember me
+        </label>
+
+        <a href="blog.html" class="button login">Login</a>
+
+        <a href="blog.html">Don't have an account?</a>
+      </form>
+    </main>
   </body>
 </html>
