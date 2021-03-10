@@ -1,5 +1,8 @@
 from flask import Flask, render_template, request, redirect, jsonify
 from flask_mysqldb import MySQL
+from jinja2 import nodes
+
+
 # import yaml
 # import MySQLdb.cursors
 # import re
@@ -22,14 +25,13 @@ mysql = MySQL(app)
 def index():
     message = 'Wrong details'
     if request.method == 'POST':
-        userInfo = request.formpyth
+        userInfo = request.form
         email = userInfo['email']
         password = userInfo['password']
-
-        if email == 'test2@mail.com' and password == '123456':
-            return redirect('/blog')
+        if email == "test@mail.com" and password == "123456":
+            return render_template("forum.html")
         else:
-            return redirect('/register')
+            return message
 
     return render_template('index.html')
 
@@ -57,9 +59,9 @@ def register():
     return render_template('register.html')
 
 
-@app.route('/blog')
-def blog():
-    return render_template('blog.html')
+@app.route('/forum')
+def forum():
+    return render_template('forum.html')
 
 
 if __name__ == '__main__':
