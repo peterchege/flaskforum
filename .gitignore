@@ -1,1 +1,4 @@
 ./webtest
+.vscode
+__pycache__
+
