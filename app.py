@@ -45,7 +45,7 @@ def index():
             session['id'] = user['id']
             session['email'] = user['email']
             #redirect to homepage
-            return 'Logged in successfully!'
+            return render_template('forum.html')
         else:
             #A/c does not exist or email/password is incorrect
             message = 'Incorrect username/password!'
@@ -99,8 +99,15 @@ def register():
 
 
 @app.route('/forum')
+#home page only accessible to loggein members
 def forum():
-    return render_template('forum.html')
+    #check if user is logged in
+    if 'loggedin' in session:
+        #user is logged in and can see homepage
+        return render_template('forum.html', name=session['name'])
+    #user is not logged in and cant see homepage
+    return redirect(url_for('index'))
+
 
 
 if __name__ == '__main__':
