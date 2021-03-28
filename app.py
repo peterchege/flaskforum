@@ -52,27 +52,48 @@ def index():
         #show the login form with message (if any)
     return render_template('index.html', message = message)
 
+@app.route('/logout')
+def logout():
+    #remove session data, this logs out user
+    session.pop('loggedin', None)
+    session.pop('id', None)
+    session.pop('email', None)
+    #Redirect to login page
+    return redirect(url_for('index'))
 
-# @app.route('/test', methods=['GET'])
-# def test():
-#     print('inside test')
-#     return jsonify({'success':'yup'})
 
-# bringing a 404 error
-# not loading css
 @app.route('/register', methods=['POST', 'GET'])
 def register():
-    if request.method == 'POST':
+    # msg if sthg goes wrong
+    message=''
+    #Check if 'username','password' and 'email' POST requests exist (user submitted form)
+    if request.method == 'POST' and 'name' in request.form and 'password' in request.form:
         userDetails = request.form
         name = userDetails['name']
         email = userDetails['email']
         password = userDetails['password']
-        cur = mysql.connection.cursor()
-        cur.execute(
-            "INSERT INTO users(username, email, password) VALUES(%s,%s,%s)", (name, email, password))
-        mysql.connection.commit()
-        cur.close()
-        # return 'Success'
+        #check if account exits using MySQL
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM users WHERE name = %s', (name,))
+        user = cursor.fetchone()
+        #if account exists show error and validation checks
+        if user:
+            message = 'User already exists'
+        elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
+            message = 'Invalid email address!'
+        elif not re.match(r'[A-Za-z0-9]+', name):
+            message = 'Username must only contain characters and numbers'
+        elif not name or not password or not email:
+            message = 'Please fill out the form'
+        else:
+            #Account doesnt exists and the form data is valid, 
+            # now insert new account into accounts table
+            cursor.execute('INSERT INTO users VALUES (NULL, %s,%s,%s)', (email,password,name,))
+            mysql.connection.commit()
+    elif request.method == 'POST':
+        #If form is empty...
+        message = 'Please complete the Form'
+    #show registration form with the message(if any)
     return render_template('register.html')
 
 
