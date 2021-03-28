@@ -1,6 +1,8 @@
-from flask import Flask, render_template, request, redirect, jsonify
+from flask import Flask, render_template, request, redirect, jsonify,session, url_for
 from flask_mysqldb import MySQL
 from jinja2 import nodes
+import MySQLdb.cursors
+import re
 
 
 # import yaml
@@ -10,30 +12,45 @@ from jinja2 import nodes
 # from logging.handlers import RotatingFileHandler
 
 app = Flask(__name__)
+app.secret_key = 'mysecretkey'
 
 # configure DB
 # db = yaml.load(open('db.yaml'))
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'webforum'
+app.config['MYSQL_DB'] = 'forum'
 
 mysql = MySQL(app)
 
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
-    message = 'Wrong details'
+    """  Checks if the username and password POST requests exist (i.e. that the user submittet) """
+    message = ''
     if request.method == 'POST':
         userInfo = request.form
         email = userInfo['email']
         password = userInfo['password']
-        if email == "test@mail.com" and password == "123456":
-            return render_template("forum.html")
-        else:
-            return message
+        #check if account exists using MySQL
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM users WHERE email = %s AND password = %s', (email, password,))
+        #fetch one record and returns result
+        user = cursor.fetchone()
 
-    return render_template('index.html')
+        #if user exists in users table in the DB
+        if user:
+            #create session data, we can access this data in other routes
+            session['loggedin'] = True
+            session['id'] = user['id']
+            session['email'] = user['email']
+            #redirect to homepage
+            return 'Logged in successfully!'
+        else:
+            #A/c does not exist or email/password is incorrect
+            message = 'Incorrect username/password!'
+        #show the login form with message (if any)
+    return render_template('index.html', message = message)
 
 
 # @app.route('/test', methods=['GET'])
