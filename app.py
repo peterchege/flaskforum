@@ -79,22 +79,23 @@ def register():
         #if account exists show error and validation checks
         if user:
             message = 'User already exists'
-        elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
-            message = 'Invalid email address!'
         elif not re.match(r'[A-Za-z0-9]+', name):
             message = 'Username must only contain characters and numbers'
+        elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
+            message = 'Invalid email address!'
         elif not name or not password or not email:
             message = 'Please fill out the form'
         else:
             #Account doesnt exists and the form data is valid, 
             # now insert new account into accounts table
-            cursor.execute('INSERT INTO users VALUES (NULL, %s,%s,%s)', (email,password,name,))
+            cursor.execute('INSERT INTO users VALUES (NULL, %s,%s,%s)', (name,email,password,))
             mysql.connection.commit()
+            message = 'You have successfully created an account'
     elif request.method == 'POST':
         #If form is empty...
         message = 'Please complete the Form'
     #show registration form with the message(if any)
-    return render_template('register.html')
+    return render_template('register.html', message = message)
 
 
 @app.route('/forum')
