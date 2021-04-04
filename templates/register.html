@@ -12,7 +12,6 @@
       media="screen"
     />
   </head>
-
   <!-- <br> -->
   <body>
     <main>
@@ -39,6 +38,32 @@
         <div class="message">{{message}}</div>
         <input class="button" type="submit" value="Register" name="Register" />
       </form>
+
+      <form action="" method="POST" class="login">
+        <h1>Login</h1>
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          class="has-icon icon-email"
+        />
+
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          class="has-icon icon-password"
+        />
+
+        <label for="">
+          <input type="checkbox" />
+          Remember me
+        </label>
+
+        <div class="message">{{message}}</div>
+
+        <input class="button" type="submit" value="Login" name="Login" />
+      
 
       </form>
     </main>
