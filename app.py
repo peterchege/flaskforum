@@ -48,25 +48,9 @@ def index():
             return render_template('forum.html')
         else:
             #A/c does not exist or email/password is incorrect
-            message = 'Incorrect username/password!'
+            message = 'Incorrect username/password! If no account, please register on the left if you do not have an account'
         #show the login form with message (if any)
-    return render_template('index.html', message = message)
 
-@app.route('/logout')
-def logout():
-    #remove session data, this logs out user
-    session.pop('loggedin', None)
-    session.pop('id', None)
-    session.pop('email', None)
-    #Redirect to login page
-    return redirect(url_for('index'))
-
-
-@app.route('/register', methods=['POST', 'GET'])
-def register():
-    # msg if sthg goes wrong
-    message=''
-    #Check if 'username','password' and 'email' POST requests exist (user submitted form)
     if request.method == 'POST' and 'name' in request.form and 'password' in request.form:
         userDetails = request.form
         name = userDetails['name']
@@ -94,8 +78,17 @@ def register():
     elif request.method == 'POST':
         #If form is empty...
         message = 'Please complete the Form'
-    #show registration form with the message(if any)
-    return render_template('register.html', message = message)
+
+    return render_template('index.html', message = message)
+
+@app.route('/logout')
+def logout():
+    #remove session data, this logs out user
+    session.pop('loggedin', None)
+    session.pop('id', None)
+    session.pop('email', None)
+    #Redirect to login page
+    return redirect(url_for('index'))
 
 
 @app.route('/forum')
@@ -107,7 +100,6 @@ def forum():
         return render_template('forum.html', name=session['name'])
     #user is not logged in and cant see homepage
     return redirect(url_for('index'))
-
 
 
 if __name__ == '__main__':
