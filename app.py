@@ -78,9 +78,6 @@ def index():
     elif request.method == 'POST':
         #If form is empty...
         message = 'Please complete the Form'
-    
-
-
 
     return render_template('index.html', message = message)
 
@@ -103,7 +100,6 @@ def forum():
         return render_template('forum.html', name=session['name'])
     #user is not logged in and cant see homepage
     return redirect(url_for('index'))
-
 
 
 if __name__ == '__main__':
