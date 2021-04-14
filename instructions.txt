@@ -1,0 +1,7 @@
+pip install virtualenv
+virtualenv webtest
+source ./webtest/Scripts/activate
+pip install flask
+pip install mysql-connector-python
+pip install flask-mysqldb
+python app.py

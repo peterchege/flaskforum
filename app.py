@@ -72,7 +72,9 @@ def index():
         else:
             #Account doesnt exists and the form data is valid, 
             # now insert new account into accounts table
-            cursor.execute('INSERT INTO users VALUES (NULL, %s,%s,%s)', (name,email,password,))
+            sqlQuery='INSERT INTO users(name,email,password) VALUES ( %s,%s,%s)'
+            slqQueryValues=(name,email,password)
+            cursor.execute(sqlQuery, slqQueryValues)
             mysql.connection.commit()
             message = 'You have successfully created an account'
     elif request.method == 'POST':
