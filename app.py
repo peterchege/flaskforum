@@ -15,7 +15,7 @@ app.config['MYSQL_DB'] = 'forum'
 mysql = MySQL(app)
 
 
-@app.route('/login/', methods=['POST', 'GET'])
+@app.route('/', methods=['POST', 'GET'])
 def login():
     """  Checks if the username and password POST requests exist (i.e. that the user submittet) """
     message = ''
@@ -45,7 +45,7 @@ def login():
     return render_template('index.html', message = message)
 
 
-@app.route('/login/register', methods=['POST', 'GET'])
+@app.route('/register', methods=['POST', 'GET'])
 def register():
     # msg if sthg goes wrong
     message=''
