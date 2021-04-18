@@ -15,10 +15,8 @@
  <!-- <br> -->
  <body>
   <main>
-    <form action="" method="POST" autocomplete="off">
-      <h1>
-        <a href="{{ url_for('register') }}"> Register</a>
-      </h1>
+    <form action="/register" method="POST" autocomplete="off">
+      <h1>Register</h1>
       <input
         type="text"
         name="name"
@@ -39,14 +37,12 @@
       />
       <input class="button" type="submit" value="Register" name="Register" />
 
-      <div class="message">{{message}}</div>
+      <div class="message">{{reg_message}}</div>
 
     </form>
 
-    <form action="" method="POST" class="login">
-        <h1>
-          <a href="{{ url_for('login') }}">Login</a>
-        </h1>
+    <form action="/" method="POST" class="login">
+        <h1>Login</h1>
         <input
           type="email"
           name="email"
