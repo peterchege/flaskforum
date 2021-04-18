@@ -5,17 +5,8 @@ import MySQLdb.cursors
 import re
 
 
-# import yaml
-# import MySQLdb.cursors
-# import re
-# import logging
-# from logging.handlers import RotatingFileHandler
-
 app = Flask(__name__)
 app.secret_key = 'mysecretkey'
-
-# configure DB
-# db = yaml.load(open('db.yaml'))
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
@@ -25,7 +16,7 @@ mysql = MySQL(app)
 
 
 @app.route('/', methods=['POST', 'GET'])
-def index():
+def login():
     """  Checks if the username and password POST requests exist (i.e. that the user submittet) """
     message = ''
     if request.method == 'POST':
@@ -48,10 +39,18 @@ def index():
             return render_template('forum.html')
         else:
             #A/c does not exist or email/password is incorrect
-            message = 'Incorrect username/password! If no account, please register on the left if you do not have an account'
+            message = 'Incorrect username/password! If you do not have an account, please register on the left'
         #show the login form with message (if any)
 
-    if request.method == 'POST' and 'name' in request.form and 'password' in request.form:
+    return render_template('index.html', message = message)
+
+
+@app.route('/register', methods=['POST', 'GET'])
+def register():
+    # msg if sthg goes wrong
+    message=''
+    #Check if 'username','password' and 'email' POST requests exist (user submitted form)
+    if request.method == 'POST' and 'name' in request.form and 'email' in request.form and 'password' in request.form:
         userDetails = request.form
         name = userDetails['name']
         email = userDetails['email']
@@ -72,16 +71,15 @@ def index():
         else:
             #Account doesnt exists and the form data is valid, 
             # now insert new account into accounts table
-            sqlQuery='INSERT INTO users(name,email,password) VALUES ( %s,%s,%s)'
-            slqQueryValues=(name,email,password)
-            cursor.execute(sqlQuery, slqQueryValues)
+            cursor.execute('INSERT INTO users VALUES (NULL, %s,%s,%s)', (name,email,password,))
             mysql.connection.commit()
             message = 'You have successfully created an account'
     elif request.method == 'POST':
         #If form is empty...
         message = 'Please complete the Form'
-
+    #show registration form with the message(if any)
     return render_template('index.html', message = message)
+
 
 @app.route('/logout')
 def logout():
