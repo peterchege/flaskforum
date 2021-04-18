@@ -48,7 +48,7 @@ def login():
 @app.route('/register', methods=['POST', 'GET'])
 def register():
     # msg if sthg goes wrong
-    message=''
+    reg_message=''
     #Check if 'username','password' and 'email' POST requests exist (user submitted form)
     if request.method == 'POST' and 'name' in request.form and 'email' in request.form and 'password' in request.form:
         userDetails = request.form
@@ -61,24 +61,24 @@ def register():
         user = cursor.fetchone()
         #if account exists show error and validation checks
         if user:
-            message = 'User already exists'
+            reg_message = 'User already exists'
         elif not re.match(r'[A-Za-z0-9]+', name):
-            message = 'Username must only contain characters and numbers'
+            reg_message = 'Username must only contain characters and numbers'
         elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
-            message = 'Invalid email address!'
+            reg_message = 'Invalid email address!'
         elif not name or not password or not email:
-            message = 'Please fill out the form'
+            reg_message = 'Please fill out the form'
         else:
             #Account doesnt exists and the form data is valid, 
             # now insert new account into accounts table
             cursor.execute('INSERT INTO users VALUES (NULL, %s,%s,%s)', (name,email,password,))
             mysql.connection.commit()
-            message = 'You have successfully created an account'
+            reg_message = 'You have successfully created an account'
     elif request.method == 'POST':
         #If form is empty...
-        message = 'Please complete the Form'
+        reg_message = 'Please complete the Form'
     #show registration form with the message(if any)
-    return render_template('index.html', message = message)
+    return render_template('index.html', message = reg_message)
 
 
 @app.route('/logout')
