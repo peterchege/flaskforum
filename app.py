@@ -36,7 +36,7 @@ def login():
             session['id'] = user['id']
             session['email'] = user['email']
             #redirect to homepage
-            return render_template('forum.html')
+            return render_template('blogg.html')
         else:
             #A/c does not exist or email/password is incorrect
             message = 'Incorrect username/password! If you do not have an account, please register on the left'
